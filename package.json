@@ -1,0 +1,19 @@
+{
+  "name": "backend_8433914_sm",
+  "version": "1.0.0",
+  "description": "Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.coventry.ac.uk/6003CEM-2021JANMAY/BackEnd_8433914_SM-.git"
+  },
+  "author": "marcuss",
+  "license": "ISC",
+  "dependencies": {
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.0.0"
+  }
+}
