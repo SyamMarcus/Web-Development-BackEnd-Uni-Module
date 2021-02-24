@@ -1,4 +1,4 @@
-// My blog API 
+// The Canine Shelter API
 
 const Koa = require('koa');
 

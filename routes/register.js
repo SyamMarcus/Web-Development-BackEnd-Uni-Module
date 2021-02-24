@@ -1,7 +1,4 @@
-// This file will define the API route handlers for Articles
 const Router = require('koa-router');
-
-// We are going to parse request bodies so import koa-bodyparser
 const bodyParser = require('koa-bodyparser')
 const model = require('../models/register');
 
@@ -12,7 +9,7 @@ router.post('/', bodyParser(), createUser);
 
 async function createUser(ctx) {
     const body = ctx.request.body;
-    const result = await model.add(body);
+    const result = await model.create(body);
     if (result.affectedRows) {
       const id = result.insertId;
       ctx.status = 201;
