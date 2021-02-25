@@ -1,20 +1,41 @@
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser')
-const model = require('../models/register');
+const model = require('../models/users');
+const auth = require('../controllers/auth');
+const bcrypt = require('bcrypt')
+const can = require('../permissions/users');
+
 
 const router = Router({prefix: '/TCS/register'});
-
+router.get('/', auth, getAll);
 router.post('/', bodyParser(), createUser);
+
+async function getAll(ctx) {
+  const user = ctx.state.user;
+  console.log(user)
+  const permission = can.readAll(user);
+  if (!permission.granted) {
+    ctx.status = 403;
+  } else {
+    let users = await model.getAll();
+    if (users.length) {
+      ctx.body = users;
+    }
+  }
+}
 
 
 async function createUser(ctx) {
-    const body = ctx.request.body;
-    const result = await model.create(body);
-    if (result.affectedRows) {
-      const id = result.insertId;
-      ctx.status = 201;
-      ctx.body = {ID: id, created: true, link: `${ctx.request.path}/${id}`};
-    }
+  console.log(ctx.request.body)
+  const body = ctx.request.body;
+  const hash = bcrypt.hashSync(body.password, 10);
+  body.password = hash;
+  const result = await model.create(body);
+  if (result.affectedRows) {
+    const id = result.insertId;
+    ctx.status = 201;
+    ctx.body = {ID: id, created: true, link: `${ctx.request.path}/${id}`};
   }
+}
   
   module.exports = router;
