@@ -12,7 +12,6 @@ router.post('/', bodyParser(), createUser);
 
 async function getAll(ctx) {
   const user = ctx.state.user;
-  console.log(user)
   const permission = can.readAll(user);
   if (!permission.granted) {
     ctx.status = 403;
