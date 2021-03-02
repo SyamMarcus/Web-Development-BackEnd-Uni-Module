@@ -4,11 +4,12 @@ const model = require('../models/users');
 const auth = require('../controllers/auth');
 const bcrypt = require('bcrypt')
 const can = require('../permissions/users');
+const {validateUser} = require('../controllers/validation');
 
 
 const router = Router({prefix: '/TCS/register'});
 router.get('/', auth, getAll);
-router.post('/', bodyParser(), createUser);
+router.post('/', bodyParser(), validateUser, createUser);
 
 async function getAll(ctx) {
   const user = ctx.state.user;
