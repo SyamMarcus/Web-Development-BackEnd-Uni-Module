@@ -1,0 +1,51 @@
+{
+  "$schema":"http://json-schema.org/draft-04/schema#",
+  "id":"/users",
+  "title":"users",
+  "description":"account information for users",
+  "type":"object",
+  "properties":{
+    "role":{
+      "description":"Role to determine user permissions",
+      "type":"string"
+    },
+    "firstName":{
+      "description":"First name of the user",
+      "type":"string"
+    },
+    "lastName":{
+      "description":"Last name of the user",
+      "type":"string"
+    },
+    "userName":{
+      "description":"username of a user account",
+      "type":"string"
+    },
+    "about":{
+      "description":"Additional user information",
+      "type":"string"
+    },
+    "password":{
+      "description":"password of a user account",
+      "type":"string"
+    },
+    "passwordSalt":{
+      "description":"salt used for password",
+      "type":"string"
+    },
+    "email":{
+      "description":"email address of a user",
+      "type":"string"
+    },
+    "avatarURL":{
+      "description":"URL of account avatar image",
+      "type":"uri"
+    }
+  },
+  "required":[
+    "role",
+    "userName",
+    "password",
+    "email"
+  ]
+}
