@@ -1,0 +1,70 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: The Canine Shelter API
+  description: A simple dog listing API
+  contact:
+    name: Syam Marcus
+    email: marcuss@coventry.ac.uk
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: 'https://ecology-fiction-3000.codio-box.uk/TCS/'
+    description: Development server
+tags:
+- name: Listings
+  description: Access and perform CRUD operations on dog listings
+- name: Users
+  description: API endpoints for user management
+paths:
+  /listings:
+    get:
+      tags:
+        - Listings
+      description:
+        Get all dog listings
+    post:
+      tags:
+        - Listings
+      description:
+        Create a new dog listing
+      responses:
+        '201':
+          description: Upload created listing after validation
+  /listings/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: Numeric id of the listing
+    get:
+      tags:
+        - Listings
+      description:
+        Get dog listings by listings ID
+    put:
+      tags:
+        - Listings
+      description:
+        Update dog listing specified by ID
+  /register:
+    get:
+      tags:
+        - Users
+      description:
+        Get list of all users
+      responses:
+        '403':
+          description: user is not authorised to retrieve list of users
+    post:
+      tags:
+        - Users
+      description:
+        Create a new user account
+      responses:
+        '201':
+          description: Successfully create a new user after validation
+
