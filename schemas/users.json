@@ -2,7 +2,7 @@
   "$schema":"http://json-schema.org/draft-04/schema#",
   "definitions": {
     "users": {
-      "id":"/users",
+      "$id":"#users",
       "title":"users",
       "description":"account information for users",
       "type":"object",
@@ -51,6 +51,28 @@
         "email"
       ],
       "additionalProperties": false
+    },
+
+    "userCreated": {
+      "$id": "#userCreated",
+      "title": "User Created",
+      "description": "Confirmation of a successful user update/creation",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "description": "ID of the new/updated user record",
+          "type": "integer"
+        },
+        "updated": {
+          "description": "Boolean indicator of success",
+          "type": "boolean"
+        },
+        "link": {
+          "description": "Path to retrieve user record",
+          "type": "string",
+          "format": "uri"
+        }
+      }
     }
   }
 }
