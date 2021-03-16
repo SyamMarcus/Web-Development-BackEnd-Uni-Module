@@ -32,6 +32,10 @@ paths:
       responses:
         '201':
           description: Upload created listing after validation
+          content:
+            application/json:
+              schema:
+                $ref: ./listing.json#/definitions/listing
   /listings/{id}:
     parameters:
       - in: path
@@ -50,6 +54,14 @@ paths:
         - Listings
       description:
         Update dog listing specified by ID
+      responses:
+        '201':
+          description: Successful update of a listing after validation
+          content:
+            application/json:
+              schema:
+                $ref: ./listing.json#/definitions/listing
+            
   /register:
     get:
       tags:

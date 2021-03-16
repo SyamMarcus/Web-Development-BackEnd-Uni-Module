@@ -1,10 +1,10 @@
 {
   "$schema":"http://json-schema.org/draft-04/schema#",
   "definitions": {
-    "listings": {
-      "id":"/listings",
+    "listing": {
+      "$id":"/listing",
       "title":"Listings",
-      "description":"A dog listing in the shelter",
+      "description":"Creation and updating a dog listing in the shelter",
       "type":"object",
       "properties":{
         "title":{
