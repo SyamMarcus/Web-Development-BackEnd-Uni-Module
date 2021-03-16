@@ -1,48 +1,36 @@
 const {Validator, ValidationError} = require('jsonschema');
-const listingsSchema = require('../schemas/listing.json').definitions.listing;
-const usersSchema = require('../schemas/user.json').definitions.user;
 
-const v = new Validator();
+const listingSchema = require('../schemas/listing.json').definitions.listing;
+const userSchema = require('../schemas/user.json').definitions.user;
 
 
-exports.validateListing = async (ctx, next) => {
-    
-    const validationOptions = {
-        throwError: true,    
-        allowUnknownAttributes: false        
-    };
+const makeKoaValidator = (schema, resource) => {
+
+  const v = new Validator();
+  const validationOptions = {
+    throwError: true,
+    propertyName: resource
+  };
+  
+  const handler = async (ctx, next) => {
 
     const body = ctx.request.body;
+
     try {
-        v.validate(body, listingsSchema, validationOptions);
-        await next();
-    } catch (error) {
-        if (error instanceof ValidationError) {
-            ctx.body = error;
-            ctx.status = 400;
-        } else {
-            throw error;
-        }    
-    }
-}
-
-exports.validateUser = async (ctx, next) => {
-    
-  const validationOptions = {
-      throwError: true,    
-      allowUnknownAttributes: false        
-  };
-
-  const body = ctx.request.body;
-  try {
-      v.validate(body, usersSchema, validationOptions);
+      v.validate(body, schema, validationOptions);
       await next();
-  } catch (error) {
+    } catch (error) {
       if (error instanceof ValidationError) {
-          ctx.body = error;
-          ctx.status = 400;
+        console.error(error);
+        ctx.status = 400
+        ctx.body = error;
       } else {
-          throw error;
-      }    
+        throw error;
+      }
+    }
   }
+  return handler;
 }
+
+exports.validateUser = makeKoaValidator(userSchema, 'user');
+exports.validateListing = makeKoaValidator(listingSchema, 'listing');
