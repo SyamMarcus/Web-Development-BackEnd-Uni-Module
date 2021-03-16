@@ -15,7 +15,10 @@ router.put('/:id([0-9]{1,})', bodyParser(), validateListing, updateListing);
 async function getAll(ctx) {
   let articles = await model.getAll();
   if (articles.length) {
+    ctx.status = 200;
     ctx.body = articles;
+  } else {
+    ctx.status = 404;
   }
 }
 
@@ -23,7 +26,10 @@ async function getById(ctx) {
   let id = ctx.params.id;
   let article = await model.getById(id);
   if (article.length) {
+    ctx.status = 200;
     ctx.body = article[0];
+  } else {
+    ctx.status = 404;
   }
 }
 
@@ -49,6 +55,7 @@ async function updateListing(ctx) {
     Object.assign(article, body);
     result = await model.update(article);
     if (result.affectedRows) {
+      ctx.status = 201;
       ctx.body = {ID: id, updated: true, link: ctx.request.path};
     }
   }

@@ -39,6 +39,28 @@
         "authorID"
       ],
       "additionalProperties": false
+    },
+
+    "listingCreated": {
+      "$id": "#listingCreated",
+      "title": "Listing Created",
+      "description": "Confirmation of a successful listing update/creation",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "description": "ID of the new/updated listing record",
+          "type": "integer"
+        },
+        "updated": {
+          "description": "Boolean indicator of success",
+          "type": "boolean"
+        },
+        "link": {
+          "description": "Path to retrieve listing record",
+          "type": "string",
+          "format": "uri"
+        }
+      }
     }
   }
 }

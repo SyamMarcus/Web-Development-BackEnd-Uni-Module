@@ -19,6 +19,7 @@ async function getAll(ctx) {
   } else {
     let users = await model.getAll();
     if (users.length) {
+      ctx.status = 200;
       ctx.body = users;
     }
   }

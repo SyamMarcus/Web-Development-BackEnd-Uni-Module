@@ -24,18 +24,36 @@ paths:
         - Listings
       description:
         Get all dog listings
+      responses:
+        '200':
+          description: Successful retrieval of all dog listings
+          content:
+            application/json:
+              schema:
+                $ref: ./listing.json#/definitions/listing
+        '404':
+          description: Unsuccessful retrieval of all dog listings
     post:
       tags:
         - Listings
       description:
         Create a new dog listing
+      requestBody:
+        required: true
+        description: All new listing data.
+        content:
+          application/json:
+            schema:
+              $ref: ./listing.json#/definitions/listing
       responses:
         '201':
           description: Upload created listing after validation
           content:
             application/json:
               schema:
-                $ref: ./listing.json#/definitions/listing
+                $ref: ./listing.json#/definitions/listingCreated
+        '400':
+          description: Failed validation and did not upload created listing 
   /listings/{id}:
     parameters:
       - in: path
@@ -49,18 +67,36 @@ paths:
         - Listings
       description:
         Get dog listings by listings ID
+      responses:
+        '200':
+          description: Successful retrieval of specified dog listings
+          content:
+            application/json:
+              schema:
+                $ref: ./listing.json#/definitions/listing
+        '404':
+          description: Unsuccessful retrieval of specified dog listings
     put:
       tags:
         - Listings
       description:
         Update dog listing specified by ID
+      requestBody:
+        description: New information to update specified listing with.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./listing.json#/definitions/listing
       responses:
         '201':
           description: Successful update of a listing after validation
           content:
             application/json:
               schema:
-                $ref: ./listing.json#/definitions/listing
+                $ref: ./listing.json#/definitions/listingCreated
+        '400':
+          description: Failed validation and did not update listing 
             
   /register:
     get:
@@ -92,8 +128,10 @@ paths:
       responses:
         '201':
           description: Successfully create a new user after validation
-          ontent:
+          content:
             application/json:
               schema:
                 $ref: ./user.json#/definitions/userCreated
+        '400':
+          description: Failed validation and did not upload created new user 
 
