@@ -1,6 +1,6 @@
 const {Validator, ValidationError} = require('jsonschema');
-const listingsSchema = require('../schemas/listings.json').definitions.user;
-const usersSchema = require('../schemas/users.json').definitions.user;
+const listingsSchema = require('../schemas/listing.json').definitions.user;
+const usersSchema = require('../schemas/user.json').definitions.user;
 
 const v = new Validator();
 
