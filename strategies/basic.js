@@ -1,3 +1,8 @@
+/** Strategy for authenticating 
+ * @module strategies/basic
+ * @author Syam Marcus
+ * @see controllers/* for authentication with passport
+ */
 
 const BasicStrategy = require('passport-http').BasicStrategy;
 const users = require('../models/users');

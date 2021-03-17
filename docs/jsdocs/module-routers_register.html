@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: controllers/validation</title>
+    <title>JSDoc: Module: routers/register</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: controllers/validation</h1>
+    <h1 class="page-title">Module: routers/register</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">A module to run JSON Schema based validation on request/response data.</div>
+            <div class="description">Express router providing register related routes</div>
         
 
         
@@ -94,7 +94,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_validation.js.html">controllers/validation.js</a>, <a href="controllers_validation.js.html#line1">line 1</a>
+        <a href="routes_register.js.html">routes/register.js</a>, <a href="routes_register.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -104,7 +104,7 @@
     <dt class="tag-see">See:</dt>
     <dd class="tag-see">
         <ul>
-            <li>schemas/* for JSON Schema definition files</li>
+            <li>index/* for using route in koa app</li>
         </ul>
     </dd>
     
@@ -152,13 +152,13 @@
 
         
             
-<h4 class="name" id=".validateListing"><span class="type-signature">(static) </span>validateListing<span class="type-signature"></span></h4>
+<h4 class="name" id="~router"><span class="type-signature">(inner, constant) </span>router<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    Validate data against listing schema
+    Define route handlers and set URI paths
 </div>
 
 
@@ -196,69 +196,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_validation.js.html">controllers/validation.js</a>, <a href="controllers_validation.js.html#line47">line 47</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id=".validateUser"><span class="type-signature">(static) </span>validateUser<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    Validate data against user schema
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_validation.js.html">controllers/validation.js</a>, <a href="controllers_validation.js.html#line45">line 45</a>
+        <a href="routes_register.js.html">routes/register.js</a>, <a href="routes_register.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -286,7 +224,7 @@
     
 
     
-    <h4 class="name" id="~makeKoaValidator"><span class="type-signature">(inner) </span>makeKoaValidator<span class="signature">(ctx, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~createUser"><span class="type-signature">(async, inner) </span>createUser<span class="signature">(ctx)</span><span class="type-signature"></span></h4>
     
 
     
@@ -294,7 +232,7 @@
 
 
 <div class="description">
-    Koa middleware handler function to do validation
+    function to set response for the createUser route handler
 </div>
 
 
@@ -350,16 +288,130 @@
         </tr>
 
     
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_register.js.html">routes/register.js</a>, <a href="routes_register.js.html#line42">line 42</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~getAll"><span class="type-signature">(async, inner) </span>getAll<span class="signature">(ctx)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    function to set response for the getAll route handler
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
 
         <tr>
             
-                <td class="name"><code>next</code></td>
+                <td class="name"><code>ctx</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">object</span>
 
 
             
@@ -369,7 +421,7 @@
 
             
 
-            <td class="description last">The Koa next callback</td>
+            <td class="description last">The Koa request/response context object</td>
         </tr>
 
     
@@ -410,7 +462,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_validation.js.html">controllers/validation.js</a>, <a href="controllers_validation.js.html#line19">line 19</a>
+        <a href="routes_register.js.html">routes/register.js</a>, <a href="routes_register.js.html#line25">line 25</a>
     </li></ul></dd>
     
 
@@ -433,35 +485,6 @@
 
 
 
-<h5>Throws:</h5>
-
-        
-
-<dl>
-    <dt>
-        <div class="param-desc">
-        a jsonschema library exception
-        </div>
-    </dt>
-    <dd></dd>
-    <dt>
-        <dl>
-            <dt>
-                Type
-            </dt>
-            <dd>
-                
-<span class="param-type">ValidationError</span>
-
-
-            </dd>
-        </dl>
-    </dt>
-    <dd></dd>
-</dl>
-
-
-    
 
 
 
