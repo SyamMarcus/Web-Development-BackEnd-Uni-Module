@@ -1,3 +1,9 @@
+/** Express router providing register related routes
+ * @module routers/register
+ * @author Syam Marcus
+ * @see index/* for using route in koa app
+ */
+
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser')
 const model = require('../models/users');
@@ -6,11 +12,16 @@ const bcrypt = require('bcrypt')
 const can = require('../permissions/users');
 const {validateUser} = require('../controllers/validation');
 
-
+/** Define route handlers and set URI paths*/
 const router = Router({prefix: '/TCS/register'});
 router.get('/', auth, getAll);
 router.post('/', bodyParser(), validateUser, createUser);
 
+
+/**
+ * function to set response for the getAll route handler
+ * @param {object} ctx - The Koa request/response context object
+*/
 async function getAll(ctx) {
   const user = ctx.state.user;
   const permission = can.readAll(user);
@@ -25,7 +36,10 @@ async function getAll(ctx) {
   }
 }
 
-
+/**
+ * function to set response for the createUser route handler
+ * @param {object} ctx - The Koa request/response context object
+*/
 async function createUser(ctx) {
   console.log(ctx.request.body)
   const body = ctx.request.body;
