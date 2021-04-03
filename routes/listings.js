@@ -25,10 +25,10 @@ router.del('/:id([0-9]{1,})', deleteListing);
  * @param {object} ctx - The Koa request/response context object
 */
 async function getAll(ctx) {
-  let articles = await model.getAll();
-  if (articles.length) {
+  let listings = await model.getAll();
+  if (listings.length) {
     ctx.status = 200;
-    ctx.body = articles;
+    ctx.body = listings;
   } else {
     ctx.status = 404;
   }
@@ -40,10 +40,10 @@ async function getAll(ctx) {
 */
 async function getById(ctx) {
   let id = ctx.params.id;
-  let article = await model.getById(id);
-  if (article.length) {
+  let listing = await model.getById(id);
+  if (listing.length) {
     ctx.status = 200;
-    ctx.body = article[0];
+    ctx.body = listing[0];
   } else {
     ctx.status = 404;
   }
@@ -68,14 +68,14 @@ async function createListing(ctx) {
 */
 async function updateListing(ctx) {
   const id = ctx.params.id;
-  let result = await model.getById(id);  // check it exists
+  let result = await model.getById(id); 
   if (result.length) {
-    let article = result[0];
+    let listing = result[0];
     // exclude fields that should not be updated
     const {ID, dateCreated, dateModified, authorID, ...body} = ctx.request.body;
     // overwrite updatable fields with remaining body data
-    Object.assign(article, body);
-    result = await model.update(article);
+    Object.assign(listing, body);
+    result = await model.update(listing);
     if (result.affectedRows) {
       ctx.status = 201;
       ctx.body = {ID: id, updated: true, link: ctx.request.path};

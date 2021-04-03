@@ -19,8 +19,8 @@ exports.getAll = async function getAll (page, limit, order) {
 
 /**
  * Pass SQL query to DB controller for getting specified listing, return the query result.
- * @param {number} id the ID of article being requested
- * @returns {object} a single article by its id from the DB
+ * @param {number} id the ID of listing being requested
+ * @returns {object} a single listing by its id from the DB
  */
 exports.getById = async function getById (id) { 
   let query = "SELECT * FROM listings WHERE ID = ?";
@@ -31,15 +31,21 @@ exports.getById = async function getById (id) {
 
 /**
  * Pass SQL query to DB controller for creating a listing, return the query result.
- * @param {object} article the request body for creating a new listing
- * @returns {object} create a new article in the DB
+ * @param {object} listing the request body for creating a new listing
+ * @returns {object} create a new listing in the DB
  */
-exports.create = async function create (article) {
+exports.create = async function create (listing) {
   const query = "INSERT INTO listings SET ?";
-  const data = await db.run_query(query, article);
+  const data = await db.run_query(query, listing);
   return data;
 }
 
+exports.update = async function update (listing) {
+  const query = "UPDATE listings SET ? WHERE ID = ?;";
+  const values = [listing, listing.ID];
+  const data = await db.run_query(query, values);
+  return data;
+}
 
 exports.deleteListing = async function deleteListing(id) { 
   let query = "DELETE FROM listings WHERE ID = ?";
