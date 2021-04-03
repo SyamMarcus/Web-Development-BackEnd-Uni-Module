@@ -40,6 +40,11 @@ exports.create = async function create (listing) {
   return data;
 }
 
+/**
+ * Pass SQL query to DB controller for updating a listing, return the query result.
+ * @param {object} listing the request body for information to update a listing with
+ * @returns {object} update a listing in the DB
+ */
 exports.update = async function update (listing) {
   const query = "UPDATE listings SET ? WHERE ID = ?;";
   const values = [listing, listing.ID];
@@ -47,7 +52,13 @@ exports.update = async function update (listing) {
   return data;
 }
 
-exports.deleteListing = async function deleteListing(id) { 
+
+/**
+ * Pass SQL query to DB controller for deleting a listing, return the query result.
+ * @param {object} id the ID of listing requesting deletion
+ * @returns {object} delete a listing in the DB
+ */
+exports.deleteListing = async function deleteListing (id) { 
   let query = "DELETE FROM listings WHERE ID = ?";
   let values = [id]; 
   let data = await db.run_query(query, values); 

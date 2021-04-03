@@ -83,6 +83,10 @@ async function updateListing(ctx) {
   }
 }
 
+/**
+ * function to set response for the deleteListing route handler
+ * @param {object} ctx - The Koa request/response context object
+*/
 async function deleteListing(ctx) {
   let id = ctx.params.id;
   let result = await model.deleteListing(id);
