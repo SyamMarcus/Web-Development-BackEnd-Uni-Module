@@ -17,6 +17,7 @@ router.get('/', getAll);
 router.get('/:id([0-9]{1,})', getById); 
 router.post('/', bodyParser(), validateListing, createListing);
 router.put('/:id([0-9]{1,})', bodyParser(), validateListing, updateListing);
+router.del('/:id([0-9]{1,})', deleteListing);
 
 
 /**
@@ -79,6 +80,14 @@ async function updateListing(ctx) {
       ctx.status = 201;
       ctx.body = {ID: id, updated: true, link: ctx.request.path};
     }
+  }
+}
+
+async function deleteListing(ctx) {
+  let id = ctx.params.id;
+  let result = await model.deleteListing(id);
+  if (result) {
+    ctx.status = 201;
   }
 }
 

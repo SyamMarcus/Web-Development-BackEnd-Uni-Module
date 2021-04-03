@@ -35,8 +35,7 @@
       },
       "required":[
         "title",
-        "breed",
-        "authorID"
+        "breed"
       ],
       "additionalProperties": false
     },

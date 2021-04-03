@@ -39,3 +39,11 @@ exports.create = async function create (article) {
   const data = await db.run_query(query, article);
   return data;
 }
+
+
+exports.deleteListing = async function deleteListing(id) { 
+  let query = "DELETE FROM listings WHERE ID = ?";
+  let values = [id]; 
+  let data = await db.run_query(query, values); 
+  return data; 
+}
