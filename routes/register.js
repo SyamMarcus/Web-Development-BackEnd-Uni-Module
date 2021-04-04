@@ -13,9 +13,11 @@ const can = require('../permissions/users');
 const {validateUser} = require('../controllers/validation');
 
 /** Define route handlers and set URI paths*/
-const router = Router({prefix: '/TCS/register'});
+const prefix = '/TCS/register'
+const router = Router({prefix: prefix});
 router.get('/', auth, getAll);
 router.post('/', bodyParser(), validateUser, createUser);
+router.post('/login', auth, login);
 
 
 /**
@@ -53,4 +55,12 @@ async function createUser(ctx) {
   }
 }
   
+async function login(ctx) {
+  const {ID, username, email, avatarURL} = ctx.state.user
+  const links = {
+    self: `${ctx.protocol}://${ctx.host}${prefix}/${ID}`
+  }
+  ctx.body = {ID, username, email, avatarURL, links};
+}
+
   module.exports = router;
