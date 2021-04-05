@@ -60,7 +60,7 @@ async function createListing(ctx) {
   const result = await model.create(body);
   if (result) {
     ctx.status = 201;
-    ctx.body = { ID: result.insertId };
+    ctx.body = { ID: result.insertId, created: true };
   }
 }
 
@@ -97,6 +97,8 @@ async function deleteListing(ctx) {
   const result = await model.deleteListing(id);
   if (result) {
     ctx.status = 201;
+  } else {
+    ctx.status = 404;
   }
 }
 
