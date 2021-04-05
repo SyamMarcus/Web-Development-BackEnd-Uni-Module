@@ -22,6 +22,7 @@ router.del('/:id([0-9]{1,})', deleteListing);
 /**
  * function to set response for the getAll route handler
  * @param {object} ctx - The Koa request/response context object
+ * @returns {object} A JSON body of an array of listing objects from the model
 */
 async function getAll(ctx) {
   const listings = await model.getAll();
@@ -36,6 +37,7 @@ async function getAll(ctx) {
 /**
  * function to set response for the getById route handler
  * @param {object} ctx - The Koa request/response context object
+ * @returns {object} A JSON body of a listing object from the model
 */
 async function getById(ctx) {
   const id = ctx.params.id;
@@ -51,6 +53,7 @@ async function getById(ctx) {
 /**
  * function to set response for the createListing route handler
  * @param {object} ctx - The Koa request/response context object
+ * @returns {object} A JSON body containing the resulting listing ID from the model
 */
 async function createListing(ctx) {
   const body = ctx.request.body;
@@ -64,7 +67,8 @@ async function createListing(ctx) {
 /**
  * function to set response for the updateListing route handler
  * @param {object} ctx - The Koa request/response context object
-*/
+ * @returns {object} A JSON body containing information about the updated listing
+ */
 async function updateListing(ctx) {
   const id = ctx.params.id;
   let result = await model.getById(id);

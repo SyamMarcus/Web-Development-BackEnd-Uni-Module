@@ -13,6 +13,7 @@ router.get('/', defaultResponse);
 /**
  * function to set response for the defaultResponse route handler
  * @param {object} ctx - The Koa request/response context object
+ * @returns {object} A default JSON response message
 */
 function defaultResponse(ctx) {
   ctx.body = {

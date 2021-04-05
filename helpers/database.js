@@ -15,6 +15,7 @@ const info = require('../config');
  * @returns {object} mysqljs results object containing indexable rows
  * @throws {error} Logs error to console for DB query failures
  */
+// eslint-disable-next-line camelcase
 exports.run_query = async function run_query(query, values) {
   try {
     const connection = await mysql.createConnection(info.config);

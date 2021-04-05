@@ -22,6 +22,7 @@ router.post('/login', auth, login);
 /**
  * function to set response for the getAll route handler
  * @param {object} ctx - The Koa request/response context object
+ * @returns {object} A JSON body of an array of user objects from the model
 */
 async function getAll(ctx) {
   const user = ctx.state.user;
@@ -40,6 +41,7 @@ async function getAll(ctx) {
 /**
  * function to set response for the createUser route handler
  * @param {object} ctx - The Koa request/response context object
+ * @returns {object} A JSON body containing information about the created user
 */
 async function createUser(ctx) {
   console.log(ctx.request.body);
@@ -54,6 +56,11 @@ async function createUser(ctx) {
   }
 }
 
+/**
+ * function to authenticate and login a user
+ * @param {object} ctx - The Koa request/response context object
+ * @returns {object} A JSON body containing information about the logged in user
+*/
 async function login(ctx) {
   const {
     ID, username, email, avatarURL,
