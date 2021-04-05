@@ -5,20 +5,19 @@
  */
 
 const Router = require('koa-router');
-const bodyParser = require('koa-bodyparser')
+const bodyParser = require('koa-bodyparser');
+const bcrypt = require('bcrypt');
 const model = require('../models/users');
 const auth = require('../controllers/auth');
-const bcrypt = require('bcrypt')
 const can = require('../permissions/users');
-const {validateUser} = require('../controllers/validation');
+const { validateUser } = require('../controllers/validation');
 
-/** Define route handlers and set URI paths*/
-const prefix = '/TCS/register'
-const router = Router({prefix: prefix});
+/** Define route handlers and set URI paths */
+const prefix = '/TCS/register';
+const router = Router({ prefix });
 router.get('/', auth, getAll);
 router.post('/', bodyParser(), validateUser, createUser);
 router.post('/login', auth, login);
-
 
 /**
  * function to set response for the getAll route handler
@@ -30,7 +29,7 @@ async function getAll(ctx) {
   if (!permission.granted) {
     ctx.status = 403;
   } else {
-    let users = await model.getAll();
+    const users = await model.getAll();
     if (users.length) {
       ctx.status = 200;
       ctx.body = users;
@@ -43,7 +42,7 @@ async function getAll(ctx) {
  * @param {object} ctx - The Koa request/response context object
 */
 async function createUser(ctx) {
-  console.log(ctx.request.body)
+  console.log(ctx.request.body);
   const body = ctx.request.body;
   const hash = bcrypt.hashSync(body.password, 10);
   body.password = hash;
@@ -51,16 +50,20 @@ async function createUser(ctx) {
   if (result.affectedRows) {
     const id = result.insertId;
     ctx.status = 201;
-    ctx.body = {ID: id, created: true, link: `${ctx.request.path}/${id}`};
+    ctx.body = { ID: id, created: true, link: `${ctx.request.path}/${id}` };
   }
-}
-  
-async function login(ctx) {
-  const {ID, username, email, avatarURL} = ctx.state.user
-  const links = {
-    self: `${ctx.protocol}://${ctx.host}${prefix}/${ID}`
-  }
-  ctx.body = {ID, username, email, avatarURL, links};
 }
 
-  module.exports = router;
+async function login(ctx) {
+  const {
+    ID, username, email, avatarURL,
+  } = ctx.state.user;
+  const links = {
+    self: `${ctx.protocol}://${ctx.host}${prefix}/${ID}`,
+  };
+  ctx.body = {
+    ID, username, email, avatarURL, links,
+  };
+}
+
+module.exports = router;

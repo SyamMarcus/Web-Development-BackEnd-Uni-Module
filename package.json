@@ -4,7 +4,19 @@
   "description": "Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint",
+    "test": "cross-env DB_DATABASE=test_db jest --testTimeout=10000",
+    "test:watch": "cross-env DB_DATABASE=test_db jest --watch",
+    "testDB:drop": "mysql --user=root --password=codio -e 'DROP DATABASE test_db;'",
+    "testDB:create": "mysql --user=root --password=codio -e 'CREATE DATABASE test_db;'",
+    "testDB:migrate": "mysqldump --user=root --password=codio TCS_database | mysql --user=root --password=codio test_db",
+    "pretest": "npm run testDB:drop && npm run testDB:create && npm run testDB:migrate"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "repository": {
     "type": "git",
@@ -22,9 +34,19 @@
     "koa-router": "^10.0.0",
     "passport-http": "^0.3.0",
     "promise-mysql": "^5.0.2",
-    "role-acl": "^4.5.4"
+    "role-acl": "^4.5.4",
+    "supertest": "^6.1.3"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^7.23.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.23.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "jest": "^26.6.3",
     "jsdoc": "^3.6.6"
   }
 }

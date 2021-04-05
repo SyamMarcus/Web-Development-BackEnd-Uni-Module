@@ -5,8 +5,8 @@
  * @see models/* for the models that require this module
  */
 
-var mysql = require('promise-mysql'); 
-var info = require('../config'); 
+const mysql = require('promise-mysql');
+const info = require('../config');
 
 /**
  * Run an SQL query against the DB, end the connection and return the result.
@@ -15,17 +15,17 @@ var info = require('../config');
  * @returns {object} mysqljs results object containing indexable rows
  * @throws {error} Logs error to console for DB query failures
  */
-exports.run_query = async function run_query(query, values) { 
-    try { 
-        const connection = await mysql.createConnection(info.config); 
-        let data = await connection.query(query, values); 
-        await connection.end(); 
-        return data; 
-    } catch (error) { 
-      /**
+exports.run_query = async function run_query(query, values) {
+  try {
+    const connection = await mysql.createConnection(info.config);
+    const data = await connection.query(query, values);
+    await connection.end();
+    return data;
+  } catch (error) {
+    /**
        * Don't let unknown errors propagate up to the response object
        * as it may contain sensitive server information.
        */
-        console.error(error, query, values); throw 'Database query error' 
-    } 
-}
+    console.error(error, query, values); throw 'Database query error';
+  }
+};

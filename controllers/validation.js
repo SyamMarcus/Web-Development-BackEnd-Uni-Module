@@ -5,7 +5,7 @@
  * @see schemas/* for JSON Schema definition files
  */
 
-const {Validator, ValidationError} = require('jsonschema');
+const { Validator, ValidationError } = require('jsonschema');
 
 const listingSchema = require('../schemas/listing.json').definitions.listing;
 const userSchema = require('../schemas/user.json').definitions.user;
@@ -20,9 +20,9 @@ const makeKoaValidator = (schema, resource) => {
   const v = new Validator();
   const validationOptions = {
     throwError: true,
-    propertyName: resource
+    propertyName: resource,
   };
-  
+
   const handler = async (ctx, next) => {
     const body = ctx.request.body;
     try {
@@ -31,15 +31,15 @@ const makeKoaValidator = (schema, resource) => {
     } catch (error) {
       if (error instanceof ValidationError) {
         console.error(error);
-        ctx.status = 400
+        ctx.status = 400;
         ctx.body = error;
       } else {
         throw error;
       }
     }
-  }
+  };
   return handler;
-}
+};
 
 /** Validate data against user schema */
 exports.validateUser = makeKoaValidator(userSchema, 'user');
