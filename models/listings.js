@@ -11,9 +11,10 @@ const db = require('../helpers/database');
  * Pass SQL query to DB controller for getting all listings, return the query result.
  * @returns {object} all listings from the DB
  */
-exports.getAll = async function getAll() {
-  const query = 'SELECT * FROM listings;';
-  const data = await db.run_query(query);
+exports.getAll = async function getAll(limit = 10, page = 10) {
+  const offset = (page - 1) * limit;
+  const query = 'SELECT * FROM listings LIMIT ?,?;';
+  const data = await db.run_query(query, [offset, limit]);
   return data;
 };
 

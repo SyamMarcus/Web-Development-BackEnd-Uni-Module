@@ -25,8 +25,37 @@ router.del('/:id([0-9]{1,})', deleteListing);
  * @returns {object} A JSON body of an array of listing objects from the model
 */
 async function getAll(ctx) {
-  const listings = await model.getAll();
+  let { limit = 10, page = 1, fields = null } = ctx.request.query;
+
+  // ensure params are integers
+  limit = parseInt(limit);
+  page = parseInt(page);
+
+  // validate values to ensure they are sensible
+  limit = limit > 100 ? 100 : limit;
+  limit = limit < 1 ? 10 : limit;
+  page = page < 1 ? 1 : page;
+
+  let listings = await model.getAll(limit, page);
+
   if (listings.length) {
+    if (fields !== null) {
+      // first ensure the fields are contained in an array
+      // need this since a single field in the query is passed as a string
+      if (!Array.isArray(fields)) {
+        fields = [fields];
+      }
+      // then filter each row in the array of results
+      // by only including the specified fields
+      listings = listings.map((record) => {
+        partial = {};
+        // eslint-disable-next-line no-restricted-syntax
+        for (field of fields) {
+          partial[field] = record[field];
+        }
+        return partial;
+      });
+    }
     ctx.status = 200;
     ctx.body = listings;
   } else {

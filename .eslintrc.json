@@ -21,6 +21,7 @@
       }],
       "no-console": "off",
       "no-undef":"off",
-      "no-throw-literal":"off"
+      "no-throw-literal":"off",
+      "radix": "off"
     }
 }
