@@ -14,6 +14,7 @@ const { validateListing } = require('../controllers/validation');
 /** Define route handlers and set URI paths */
 const router = Router({ prefix: '/TCS/listings' });
 router.get('/', getAll);
+router.get('/search', getBySearch);
 router.get('/:id([0-9]{1,})', getById);
 router.post('/', bodyParser(), validateListing, createListing);
 router.put('/:id([0-9]{1,})', bodyParser(), validateListing, updateListing);
@@ -56,6 +57,37 @@ async function getAll(ctx) {
         return partial;
       });
     }
+    ctx.status = 200;
+    ctx.body = listings;
+  } else {
+    ctx.status = 404;
+  }
+}
+
+/**
+ * function to set response for the getAll route handler
+ * @param {object} ctx - The Koa request/response context object
+ * @returns {object} A JSON body of an array of listing objects from the model
+*/
+async function getBySearch(ctx) {
+  // eslint-disable-next-line prefer-const
+  let { q = null, limit = 10, page = 1 } = ctx.request.query;
+
+  // ensure params are integers
+  limit = parseInt(limit);
+  page = parseInt(page);
+
+  // validate values to ensure they are sensible
+  limit = limit > 100 ? 100 : limit;
+  limit = limit < 1 ? 10 : limit;
+  page = page < 1 ? 1 : page;
+
+  // validate query
+  q = `%${q}%`;
+
+  const listings = await model.getBySearch(q, limit, page);
+
+  if (listings.length) {
     ctx.status = 200;
     ctx.body = listings;
   } else {
