@@ -8,9 +8,10 @@ const BasicStrategy = require('passport-http').BasicStrategy;
 const bcrypt = require('bcrypt');
 const users = require('../models/users');
 
+// eslint-disable-next-line arrow-body-style
 const verifyPassword = (user, password) => {
   // compare user.password with the password supplied
-  bcrypt.compareSync(password, user.password);
+  return bcrypt.compareSync(password, user.password);
 };
 
 const checkUserAndPass = async (username, password, done) => {
