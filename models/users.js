@@ -8,6 +8,17 @@
 const db = require('../helpers/database');
 
 /**
+ * Pass SQL query to DB controller for searching for a valid employee code, return the query result.
+ * @returns {object} boolean value for if code exists
+ */
+exports.getCode = async function getCode(code) {
+  const query = 'SELECT EXISTS(SELECT * from codes WHERE EmployeeCode=?);';
+  const values = [code];
+  const data = await db.run_query(query, values);
+  return data;
+};
+
+/**
  * Pass SQL query to DB controller for getting all users, return the query result.
  * @returns {object} all users from the DB
  */

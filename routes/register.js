@@ -16,8 +16,25 @@ const { validateUser } = require('../controllers/validation');
 const prefix = '/TCS/register';
 const router = Router({ prefix });
 router.get('/', auth, getAll);
+router.get('/search', getCode);
 router.post('/', bodyParser(), validateUser, createUser);
 router.post('/login', auth, login);
+
+/**
+ * function to set response for the getCode route handler
+ * @param {object} ctx - The Koa request/response context object
+ * @returns {object} A JSON body of the query and boolean value for if code was found
+*/
+async function getCode(ctx) {
+  const { code = null } = ctx.request.query;
+  const result = await model.getCode(code);
+  if (result.length) {
+    ctx.status = 200;
+    ctx.body = result[0];
+  } else {
+    ctx.status = 404;
+  }
+}
 
 /**
  * function to set response for the getAll route handler
@@ -52,7 +69,7 @@ async function createUser(ctx) {
   if (result.affectedRows) {
     const id = result.insertId;
     ctx.status = 201;
-    ctx.body = { ID: id, created: true, link: `${ctx.request.path}/${id}` };
+    ctx.body = { ID: id, created: true, link: `${ctx.request.path}${id}` };
   }
 }
 
