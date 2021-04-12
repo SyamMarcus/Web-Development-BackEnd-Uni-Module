@@ -73,6 +73,19 @@
           "format": "uri"
         }
       }
+    },
+    
+    "employeeCode": {
+      "$id": "#employeeCode",
+      "title": "Employee Code",
+      "description": "Confirmation of a successful employee code search",
+      "type": "object",
+      "properties": {
+        "EXISTS(SELECT * from codes WHERE EmployeeCode='')": {
+          "description": "The boolean result of the search for if an employee code exists in the database",
+          "type": "integer"
+        }
+      }
     }
   }
 }

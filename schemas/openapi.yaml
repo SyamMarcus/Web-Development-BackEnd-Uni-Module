@@ -23,7 +23,7 @@ paths:
       tags:
         - Listings
       description:
-        Get all dog listings
+        Get all dog listings with pagiation
       responses:
         '200':
           description: Successful retrieval of all dog listings
@@ -54,6 +54,28 @@ paths:
                 $ref: ./listing.json#/definitions/listingCreated
         '400':
           description: Failed validation and did not upload created listing 
+  /listings/search:
+    parameters:
+      - in: path
+        name: q
+        schema:
+          type: string
+        required: true
+        description: Search query to find matching listings
+    get:
+      tags:
+        - Listings
+      description:
+        Get all dog listings matching the search query
+      responses:
+        '200':
+          description: Successful retrieval of dog listings matching search
+          content:
+            application/json:
+              schema:
+                $ref: ./listing.json#/definitions/listing
+        '404':
+          description: Unsuccessful retrieval of dog listings matching search
   /listings/{id}:
     parameters:
       - in: path
@@ -97,6 +119,16 @@ paths:
                 $ref: ./listing.json#/definitions/listingCreated
         '400':
           description: Failed validation and did not update listing 
+    del:
+      tags:
+        - Listings
+      description:
+        Delete dog listing specified by ID
+      responses:
+        '201':
+          description: Successful deletion of specified dog listing
+        '400':
+          description: Failure to delete specified dog listing
             
   /register:
     get:
@@ -134,4 +166,35 @@ paths:
                 $ref: ./user.json#/definitions/userCreated
         '400':
           description: Failed validation and did not upload created new user 
+  /register/search:
+    parameters:
+      - in: path
+        name: code
+        schema:
+          type: string
+        required: true
+        description: Search query to check employee code
+    get:
+      tags:
+        - Users
+      description:
+        Check if employee code in search query exists in the database
+      responses:
+        '200':
+          description: The search query was successful
+          content:
+            application/json:
+              schema:
+                $ref: ./user.json#/definitions/employeeCode
+        '404':
+          description: Unsuccessful retrieval of search results
+  /register/login:
+    post:
+      tags:
+        - Users
+      description:
+        authentication of a username and password using basic auth
+      requestHeader:
+        description: Username and Password
+        required: true
 
