@@ -6,9 +6,9 @@
 
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
-const auth = require('../controllers/auth');
+// const auth = require('../controllers/auth');
 const model = require('../models/listings');
-const can = require('../permissions/users');
+// const can = require('../permissions/users');
 const { validateListing } = require('../controllers/validation');
 
 /** Define route handlers and set URI paths */
@@ -16,7 +16,7 @@ const router = Router({ prefix: '/TCS/listings' });
 router.get('/', getAll);
 router.get('/search', getBySearch);
 router.get('/:id([0-9]{1,})', getById);
-router.post('/', bodyParser(), auth, validateListing, createListing);
+router.post('/', bodyParser(), validateListing, createListing);
 router.put('/:id([0-9]{1,})', bodyParser(), validateListing, updateListing);
 router.del('/:id([0-9]{1,})', deleteListing);
 
@@ -117,6 +117,13 @@ async function getById(ctx) {
  * @returns {object} A JSON body containing the resulting listing ID from the model
 */
 async function createListing(ctx) {
+  const body = ctx.request.body;
+  const result = await model.create(body);
+  if (result) {
+    ctx.status = 201;
+    ctx.body = { ID: result.insertId, created: true };
+  }
+  /*
   const user = ctx.state.user;
   const permission = can.readAll(user);
   if (!permission.granted) {
@@ -128,6 +135,7 @@ async function createListing(ctx) {
       ctx.body = { ID: result.insertId, created: true };
     }
   }
+  */
 }
 
 /**

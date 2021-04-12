@@ -9,6 +9,14 @@ describe('Get all Listings', () => {
   });
 });
 
+describe('Get Listings by Search', () => {
+  it('should return a listings which match the search query "second" ', async () => {
+    const res = await request(app.callback())
+      .get('/TCS/listings/search?q=second');
+    expect(res.statusCode).toEqual(200);
+  });
+});
+
 describe('Get a Listings by ID', () => {
   it('should return a listing from the DB', async () => {
     const res = await request(app.callback())
@@ -51,6 +59,14 @@ describe('Delete a specified Listing', () => {
     const res = await request(app.callback())
       .delete('/TCS/listings/1');
     expect(res.statusCode).toEqual(201);
+  });
+});
+
+describe('FAIL to get Listings by Search', () => {
+  it('A search query with no matches should return a 404 status', async () => {
+    const res = await request(app.callback())
+      .get('/TCS/listings/search?q=34567876543456787654');
+    expect(res.statusCode).toEqual(404);
   });
 });
 
