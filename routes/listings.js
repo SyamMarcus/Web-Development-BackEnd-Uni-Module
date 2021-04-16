@@ -4,6 +4,19 @@
  * @see index/* for using route in koa app
  */
 
+const fileStore = './var/tmp/api/public/images';
+const uploadOptions = {
+  multipart: true,
+  formidable: {
+    uploadDir: './tmp/api/uploads',
+  },
+};
+
+const { copyFileSync, existsSync, createReadStream } = require('fs');
+const { v4: uuidv4 } = require('uuid');
+const koaBody = require('koa-body')(uploadOptions);
+const mime = require('mime-types');
+
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 // const auth = require('../controllers/auth');
@@ -19,6 +32,56 @@ router.get('/:id([0-9]{1,})', getById);
 router.post('/', bodyParser(), validateListing, createListing);
 router.put('/:id([0-9]{1,})', bodyParser(), validateListing, updateListing);
 router.del('/:id([0-9]{1,})', deleteListing);
+
+router.post('/images', koaBody, async (ctx) => {
+  try {
+    const { path, name, type } = ctx.request.files.upload;
+    const extension = mime.extension(type);
+
+    // add some logging to help with troubleshooting
+    console.log('Uploaded file details:');
+    console.log(`path: ${path}`);
+    console.log(`filename: ${name}`);
+    console.log(`type: ${type}`);
+    console.log(`extension: ${extension}`);
+
+    const imageName = uuidv4();
+    const newPath = `${fileStore}/${imageName}`;
+    copyFileSync(path, newPath);
+
+    ctx.status = 201;
+    ctx.body = {
+      file: {
+        status: 'done',
+        path: router.url('get_image', imageName),
+      },
+    };
+  } catch (err) {
+    console.log(`error ${err.message}`);
+    ctx.throw(500, 'upload error', { message: err.message });
+  }
+});
+
+router.get('get_image', '/images/:uuid([0-9a-f\\-]{36})', async (ctx) => {
+  const uuid = ctx.params.uuid;
+  const path = `${fileStore}/${uuid}`;
+  console.log('client requested image with path', path);
+  try {
+    if (existsSync(path)) {
+      console.log('image found');
+      const src = createReadStream(path);
+      ctx.type = 'image/jpeg';
+      ctx.body = src;
+      ctx.status = 200;
+    } else {
+      console.log('image not found');
+      ctx.status = 404;
+    }
+  } catch (err) {
+    console.log(`error ${err.message}`);
+    ctx.throw(500, 'image download error', { message: err.message });
+  }
+});
 
 /**
  * function to set response for the getAll route handler
