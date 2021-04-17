@@ -41,7 +41,7 @@
         },
         "avatarURL":{
           "description":"URL of account avatar image",
-          "type":"uri"
+          "type":"string"
         }
       },
       "required":[

@@ -37,6 +37,18 @@ exports.getById = async function getById(id) {
 };
 
 /**
+ * Pass SQL query to DB controller for getting specified listing, return the query result.
+ * @param {number} id the ID of listing being requested
+ * @returns {object} a single listing by its id from the DB
+ */
+exports.getByAuthorId = async function getByAuthorId(id) {
+  const query = 'SELECT * FROM listings WHERE authorID = ? ';
+  const values = [id];
+  const data = await db.run_query(query, values);
+  return data;
+};
+
+/**
  * Pass SQL query to DB controller for creating a listing, return the query result.
  * @param {object} listing the request body for creating a new listing
  * @returns {object} create a new listing in the DB

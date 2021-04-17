@@ -29,6 +29,7 @@ const router = Router({ prefix: '/TCS/listings' });
 router.get('/', getAll);
 router.get('/search', getBySearch);
 router.get('/:id([0-9]{1,})', getById);
+router.get('/account/:id([0-9]{1,})', getByAuthorId);
 router.post('/', bodyParser(), validateListing, createListing);
 router.put('/:id([0-9]{1,})', bodyParser(), validateListing, updateListing);
 router.del('/:id([0-9]{1,})', deleteListing);
@@ -65,10 +66,8 @@ router.post('/images', koaBody, async (ctx) => {
 router.get('get_image', '/images/:uuid([0-9a-f\\-]{36})', async (ctx) => {
   const uuid = ctx.params.uuid;
   const path = `${fileStore}/${uuid}`;
-  console.log('client requested image with path', path);
   try {
     if (existsSync(path)) {
-      console.log('image found');
       const src = createReadStream(path);
       ctx.type = 'image/jpeg';
       ctx.body = src;
@@ -169,6 +168,22 @@ async function getById(ctx) {
   if (listing.length) {
     ctx.status = 200;
     ctx.body = listing[0];
+  } else {
+    ctx.status = 404;
+  }
+}
+
+/**
+ * function to set response for the getById route handler
+ * @param {object} ctx - The Koa request/response context object
+ * @returns {object} A JSON body of a listing object from the model
+*/
+async function getByAuthorId(ctx) {
+  const id = ctx.params.id;
+  const listings = await model.getByAuthorId(id);
+  if (listings.length) {
+    ctx.status = 200;
+    ctx.body = listings;
   } else {
     ctx.status = 404;
   }

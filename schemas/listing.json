@@ -21,7 +21,7 @@
         },
         "imageURL":{
           "description":"URL for main image to show in listing",
-          "type":"uri"
+          "type":"string"
         },
         "published":{
           "description":"Is the listing published or not",
