@@ -15,6 +15,9 @@ ac.grant('user').condition({ Fn: 'EQUALS', args: { requester: '$.owner' } }).exe
 ac.grant('user').condition({ Fn: 'EQUALS', args: { requester: '$.owner' } }).execute('update')
   .on('user', ['firstName', 'lastName', 'about', 'password', 'email', 'avatarURL']);
 
+ac.grant('user').condition({ Fn: 'EQUALS', args: { requester: '$.owner' } }).execute('update')
+  .on('listing', ['title', 'breed', 'summary']);
+
 ac.grant('admin').execute('read').on('user');
 ac.grant('admin').execute('read').on('users');
 ac.grant('admin').execute('update').on('user');
@@ -32,8 +35,12 @@ exports.read = (requester, data) => ac.can(requester.role).context({ requester: 
   .on('user');
 
 /** grant permission to update request if the user role matches */
-exports.update = (requester, data) => ac.can(requester.role).context({ requester: requester.ID, owner: data.ID }).execute('update').sync()
+exports.update = (requester, data) => ac.can(requester.role).context({ requester: requester.ID, owner: data }).execute('update').sync()
   .on('user');
+
+/** grant permission to update request if the user role matches */
+exports.update = (requester, data) => ac.can(requester.role).context({ requester: requester.ID, owner: data.authorID }).execute('update').sync()
+  .on('listing');
 
 /** grant permission to delete request if the user role matches */
 exports.delete = (requester, data) => ac.can(requester.role).context({ requester: requester.ID, owner: data.ID }).execute('delete').sync()

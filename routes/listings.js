@@ -6,9 +6,9 @@
 
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
-// const auth = require('../controllers/auth');
+const auth = require('../controllers/auth');
 const model = require('../models/listings');
-// const can = require('../permissions/users');
+const can = require('../permissions/users');
 const { validateListing } = require('../controllers/validation');
 
 /** Define route handlers and set URI paths */
@@ -18,7 +18,7 @@ router.get('/search', getBySearch);
 router.get('/:id([0-9]{1,})', getById);
 router.get('/account/:id([0-9]{1,})', getByAuthorId);
 router.post('/', bodyParser(), validateListing, createListing);
-router.put('/:id([0-9]{1,})', bodyParser(), validateListing, updateListing);
+router.put('/:id([0-9]{1,})', auth, bodyParser(), validateListing, updateListing);
 router.del('/:id([0-9]{1,})', deleteListing);
 
 /**
@@ -140,19 +140,6 @@ async function createListing(ctx) {
     ctx.status = 201;
     ctx.body = { ID: result.insertId, created: true };
   }
-  /*
-  const user = ctx.state.user;
-  const permission = can.readAll(user);
-  if (!permission.granted) {
-    ctx.status = 403;
-  } else {
-    const result = await model.create(body);
-    if (result) {
-      ctx.status = 201;
-      ctx.body = { ID: result.insertId, created: true };
-    }
-  }
-  */
 }
 
 /**
@@ -161,20 +148,28 @@ async function createListing(ctx) {
  * @returns {object} A JSON body containing information about the updated listing
  */
 async function updateListing(ctx) {
+  const user = ctx.state.user;
+  console.log(user);
   const id = ctx.params.id;
   let result = await model.getById(id);
   if (result.length) {
     const listing = result[0];
-    // exclude fields that should not be updated
-    const {
-      ID, dateCreated, dateModified, authorID, ...body
-    } = ctx.request.body;
-    // overwrite updatable fields with remaining body data
-    Object.assign(listing, body);
-    result = await model.update(listing);
-    if (result.affectedRows) {
-      ctx.status = 201;
-      ctx.body = { ID: id, updated: true, link: ctx.request.path };
+    console.log(listing.authorID);
+    const permission = can.update(user, listing);
+    if (!permission.granted) {
+      ctx.status = 403;
+    } else {
+      // exclude fields that should not be updated
+      const {
+        ID, dateCreated, dateModified, authorID, ...body
+      } = ctx.request.body;
+      // overwrite updatable fields with remaining body data
+      Object.assign(listing, body);
+      result = await model.update(listing);
+      if (result.affectedRows) {
+        ctx.status = 201;
+        ctx.body = { ID: id, updated: true, link: ctx.request.path };
+      }
     }
   }
 }
