@@ -16,10 +16,10 @@ const router = Router({ prefix: '/TCS/listings' });
 router.get('/', getAll);
 router.get('/search', getBySearch);
 router.get('/:id([0-9]{1,})', getById);
-router.get('/account/:id([0-9]{1,})', getByAuthorId);
-router.post('/', bodyParser(), validateListing, createListing);
+router.get('/account', auth, getByAuthorId);
+router.post('/', auth, bodyParser(), validateListing, createListing);
 router.put('/:id([0-9]{1,})', auth, bodyParser(), validateListing, updateListing);
-router.del('/:id([0-9]{1,})', deleteListing);
+router.del('/:id([0-9]{1,})', auth, deleteListing);
 
 /**
  * function to set response for the getAll route handler
@@ -118,11 +118,17 @@ async function getById(ctx) {
  * @returns {object} A JSON body of all listing objects found matching authorID from the model
 */
 async function getByAuthorId(ctx) {
-  const id = ctx.params.id;
+  const user = ctx.state.user;
+  const id = user.ID;
   const listings = await model.getByAuthorId(id);
   if (listings.length) {
-    ctx.status = 200;
-    ctx.body = listings;
+    const permission = can.readListing(user, listings[0]);
+    if (!permission.granted) {
+      ctx.status = 403;
+    } else {
+      ctx.status = 200;
+      ctx.body = listings;
+    }
   } else {
     ctx.status = 404;
   }
@@ -134,11 +140,17 @@ async function getByAuthorId(ctx) {
  * @returns {object} A JSON body containing the resulting listing ID from the model
 */
 async function createListing(ctx) {
-  const body = ctx.request.body;
-  const result = await model.create(body);
-  if (result) {
-    ctx.status = 201;
-    ctx.body = { ID: result.insertId, created: true };
+  const user = ctx.state.user;
+  const permission = can.createListing(user);
+  if (!permission.granted) {
+    ctx.status = 403;
+  } else {
+    const body = ctx.request.body;
+    const result = await model.create(body);
+    if (result) {
+      ctx.status = 201;
+      ctx.body = { ID: result.insertId, created: true };
+    }
   }
 }
 
@@ -149,13 +161,11 @@ async function createListing(ctx) {
  */
 async function updateListing(ctx) {
   const user = ctx.state.user;
-  console.log(user);
   const id = ctx.params.id;
   let result = await model.getById(id);
   if (result.length) {
     const listing = result[0];
-    console.log(listing.authorID);
-    const permission = can.update(user, listing);
+    const permission = can.updateListing(user, listing);
     if (!permission.granted) {
       ctx.status = 403;
     } else {
@@ -180,9 +190,21 @@ async function updateListing(ctx) {
 */
 async function deleteListing(ctx) {
   const id = ctx.params.id;
-  const result = await model.deleteListing(id);
-  if (result) {
-    ctx.status = 201;
+  const user = ctx.state.user;
+  const listing = await model.getById(id);
+  if (listing.length) {
+    const permission = can.deleteListing(user, listing[0]);
+    if (!permission.granted) {
+      ctx.status = 403;
+    } else {
+      const result = await model.deleteListing(id);
+      if (result) {
+        ctx.status = 201;
+        ctx.body = { ID: id, deleted: true };
+      } else {
+        ctx.status = 404;
+      }
+    }
   } else {
     ctx.status = 404;
   }

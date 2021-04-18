@@ -26,10 +26,20 @@ describe('Get a Listings by ID', () => {
   });
 });
 
+describe('Get a Listings by authorID', () => {
+  it('should return listings from the DB whos author matches the ID', async () => {
+    const res = await request(app.callback())
+      .get('/TCS/listings/account')
+      .auth('user', 'user');
+    expect(res.statusCode).toEqual(200);
+  });
+});
+
 describe('Post new listing', () => {
   it('should create a new listing', async () => {
     const res = await request(app.callback())
       .post('/TCS/listings')
+      .auth('admin', 'admin')
       .send({
         title: 'Title for a Test Listing',
         breed: 'Test breed',
@@ -44,6 +54,7 @@ describe('Update a specified Listing', () => {
   it('should return info on the listing update', async () => {
     const res = await request(app.callback())
       .put('/TCS/listings/1')
+      .auth('admin', 'admin')
       .send({
         title: 'New title for a Test Listing',
         breed: 'New Test breed',
@@ -57,7 +68,8 @@ describe('Update a specified Listing', () => {
 describe('Delete a specified Listing', () => {
   it('should return info on the listing update ', async () => {
     const res = await request(app.callback())
-      .delete('/TCS/listings/1');
+      .delete('/TCS/listings/1')
+      .auth('admin', 'admin');
     expect(res.statusCode).toEqual(201);
   });
 });
@@ -78,10 +90,20 @@ describe('FAIL to get a Listings by ID', () => {
   });
 });
 
+describe('FAIL to get a Listings by authorID', () => {
+  it('If the user has no listings, the result code will be a 404 status', async () => {
+    const res = await request(app.callback())
+      .get('/TCS/listings/account')
+      .auth('admin', 'admin');
+    expect(res.statusCode).toEqual(404);
+  });
+});
+
 describe('FAIL to Post new listing', () => {
   it('Entering bad info should return a 400 status', async () => {
     const res = await request(app.callback())
       .post('/TCS/listings')
+      .auth('admin', 'admin')
       .send({
         summary: 'This test forgot the title and breed!',
       });
@@ -93,6 +115,7 @@ describe('FAIL to Update a specified Listing', () => {
   it('Entering bad info should return a 400 status', async () => {
     const res = await request(app.callback())
       .put('/TCS/listings/1')
+      .auth('admin', 'admin')
       .send({
         title: 'New title for a Test Listing',
         summary: 'I think this update accidently removed the dog breed!',

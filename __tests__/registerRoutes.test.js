@@ -19,8 +19,7 @@ describe('Register a new user', () => {
 describe('Check employee code exists through a search query', () => {
   it('The "123" employee code should be found with a query value of 1', async () => {
     const res = await request(app.callback())
-      .get('/TCS/register/search?code=123')
-      .auth('user', 'user');
+      .get('/TCS/register/search?code=123');
     expect(res.body).toHaveProperty(["EXISTS(SELECT * from codes WHERE EmployeeCode='123')"], 1);
   });
 });
@@ -41,8 +40,7 @@ describe('FAIL to register a new user', () => {
 describe('FAIL to find existing employee code through a search query', () => {
   it('A blank query should result in a query value of 0', async () => {
     const res = await request(app.callback())
-      .get('/TCS/register/search?code=')
-      .auth('user', 'user');
+      .get('/TCS/register/search?code=');
     expect(res.body).toHaveProperty(["EXISTS(SELECT * from codes WHERE EmployeeCode='')"], 0);
   });
 });

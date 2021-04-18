@@ -16,7 +16,7 @@ const { validateUser } = require('../controllers/validation');
 const prefix = '/TCS/register';
 const router = Router({ prefix });
 router.get('/', auth, getAll);
-router.get('/search', auth, getCode);
+router.get('/search', getCode);
 router.post('/', bodyParser(), validateUser, createUser);
 router.post('/login', auth, login);
 
