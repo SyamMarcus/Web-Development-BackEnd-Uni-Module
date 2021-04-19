@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: strategies/basic.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,62 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: strategies/basic.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** Strategy for authenticating
+ * @module strategies/basic
+ * @author Syam Marcus
+ * @see controllers/* for authentication with passport
+ */
 
+const BasicStrategy = require('passport-http').BasicStrategy;
+const bcrypt = require('bcrypt');
+const users = require('../models/users');
 
-    <h3> </h3>
+// eslint-disable-next-line arrow-body-style
+const verifyPassword = (user, password) => {
+  // compare user.password with the password supplied
+  return bcrypt.compareSync(password, user.password);
+};
 
+const checkUserAndPass = async (username, password, done) => {
+// look up the user and check the password if the user exists
+// call done() with either an error or the user, depending on outcome
+  let result;
+  try {
+    result = await users.findByUsername(username);
+  } catch (error) {
+    console.error(`Error during authentication for user ${username}`);
+    return done(error);
+  }
 
+  if (result.length) {
+    const user = result[0];
+    if (verifyPassword(user, password)) {
+      console.log(`Successfully authenticated user ${username}`);
+      return done(null, user);
+    }
+    console.log(`Password incorrect for user ${username}`);
+  } else {
+    console.log(`No user found with username ${username}`);
+  }
 
+  return done(null, false); // username or password were incorrect
+};
 
+const strategy = new BasicStrategy(checkUserAndPass);
 
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = strategy;
+</code></pre>
+        </article>
+    </section>
 
 
 

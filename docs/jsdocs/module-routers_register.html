@@ -104,7 +104,7 @@
     <dt class="tag-see">See:</dt>
     <dd class="tag-see">
         <ul>
-            <li>index/* for using route in koa app</li>
+            <li>app/* for using route in koa app</li>
         </ul>
     </dd>
     
@@ -152,7 +152,7 @@
 
         
             
-<h4 class="name" id="~router"><span class="type-signature">(inner, constant) </span>router<span class="type-signature"></span></h4>
+<h4 class="name" id="~prefix"><span class="type-signature">(inner, constant) </span>prefix<span class="type-signature"></span></h4>
 
 
 
@@ -196,7 +196,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_register.js.html">routes/register.js</a>, <a href="routes_register.js.html#line16">line 16</a>
+        <a href="routes_register.js.html">routes/register.js</a>, <a href="routes_register.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -224,7 +224,7 @@
     
 
     
-    <h4 class="name" id="~createUser"><span class="type-signature">(async, inner) </span>createUser<span class="signature">(ctx)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~createUser"><span class="type-signature">(async, inner) </span>createUser<span class="signature">(ctx)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
 
     
@@ -325,7 +325,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_register.js.html">routes/register.js</a>, <a href="routes_register.js.html#line43">line 43</a>
+        <a href="routes_register.js.html">routes/register.js</a>, <a href="routes_register.js.html#line42">line 42</a>
     </li></ul></dd>
     
 
@@ -350,6 +350,28 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A JSON body containing information about the created user
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -361,7 +383,7 @@
     
 
     
-    <h4 class="name" id="~getAll"><span class="type-signature">(async, inner) </span>getAll<span class="signature">(ctx)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~getCode"><span class="type-signature">(async, inner) </span>getCode<span class="signature">(ctx)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
 
     
@@ -369,7 +391,7 @@
 
 
 <div class="description">
-    function to set response for the getAll route handler
+    function to set response for the getCode route handler
 </div>
 
 
@@ -462,7 +484,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_register.js.html">routes/register.js</a>, <a href="routes_register.js.html#line25">line 25</a>
+        <a href="routes_register.js.html">routes/register.js</a>, <a href="routes_register.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -487,6 +509,187 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A JSON body of the query and boolean value for if code was found
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~login"><span class="type-signature">(async, inner) </span>login<span class="signature">(ctx)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    function to authenticate and login a user
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ctx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The Koa request/response context object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_register.js.html">routes/register.js</a>, <a href="routes_register.js.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A JSON body containing information about the logged in user
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -508,13 +711,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-controllers_auth.html">controllers/auth</a></li><li><a href="module-controllers_validation.html">controllers/validation</a></li><li><a href="module-helpers_database.html">helpers/database</a></li><li><a href="module-index.html">index</a></li><li><a href="module-models_listings.html">models/listings</a></li><li><a href="module-models_users.html">models/users</a></li><li><a href="module-permissions_users.html">permissions/users</a></li><li><a href="module-routers_home.html">routers/home</a></li><li><a href="module-routers_listings.html">routers/listings</a></li><li><a href="module-routers_register.html">routers/register</a></li><li><a href="module-strategies_basic.html">strategies/basic</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-controllers_auth.html">controllers/auth</a></li><li><a href="module-controllers_validation.html">controllers/validation</a></li><li><a href="module-helpers_database.html">helpers/database</a></li><li><a href="module-models_listings.html">models/listings</a></li><li><a href="module-models_users.html">models/users</a></li><li><a href="module-permissions_users.html">permissions/users</a></li><li><a href="module-routers_home.html">routers/home</a></li><li><a href="module-routers_images.html">routers/images</a></li><li><a href="module-routers_listings.html">routers/listings</a></li><li><a href="module-routers_register.html">routers/register</a></li><li><a href="module-strategies_basic.html">strategies/basic</a></li></ul><h3>Global</h3><ul><li><a href="global.html#port">port</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sat Apr 03 2021 23:22:02 GMT+0000 (GMT)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Apr 19 2021 12:08:49 GMT+0000 (GMT)
 </footer>
 
 <script> prettyPrint(); </script>

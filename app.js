@@ -1,5 +1,5 @@
 /** The Canine Shelter API server host file to run koa routes
- * @module index
+ * @module app
  * @author Syam Marcus
  */
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: controllers/auth.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,31 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: controllers/auth.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * A module to run differnt authentication strategies.
+ * @module controllers/auth
+ * @author Syam Marcus
+ * @see models/* for the models that require this module
+ */
 
+const passport = require('koa-passport');
+const basicAuth = require('../strategies/basic');
 
-    <h3> </h3>
+passport.use(basicAuth);
 
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = passport.authenticate(['basic'], { session: false });
+</code></pre>
+        </article>
+    </section>
 
 
 

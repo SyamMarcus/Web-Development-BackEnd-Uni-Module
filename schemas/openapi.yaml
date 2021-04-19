@@ -12,11 +12,19 @@ info:
 servers:
   - url: 'https://ecology-fiction-3000.codio-box.uk/TCS/'
     description: Development server
+components:
+  securitySchemes:
+    basicAuth: 
+      type: http
+      scheme: basic
+      
 tags:
 - name: Listings
   description: Access and perform CRUD operations on dog listings
 - name: Users
   description: API endpoints for user management
+- name: Images
+  description: API endpoints for image management
 paths:
   /listings:
     get:
@@ -36,8 +44,13 @@ paths:
     post:
       tags:
         - Listings
+      security:
+        - basicAuth: []
       description:
         Create a new dog listing
+      requestHeader:
+        description: Username and Password
+        required: true
       requestBody:
         required: true
         description: All new listing data.
@@ -54,6 +67,14 @@ paths:
                 $ref: ./listing.json#/definitions/listingCreated
         '400':
           description: Failed validation and did not upload created listing 
+        '401':
+          description: Authentication information is missing or invalid
+          headers:
+            WWW_Authenticate:
+              schema:
+                type: string
+        '403':
+          description: User role does not have permission
   /listings/search:
     parameters:
       - in: path
@@ -76,6 +97,41 @@ paths:
                 $ref: ./listing.json#/definitions/listing
         '404':
           description: Unsuccessful retrieval of dog listings matching search
+  /listings/account:
+    parameters:
+      - in: user
+        name: ID
+        schema:
+          type: integer
+        required: true
+        description: ID of the authenticated user used to fetch listings
+    get:
+      tags:
+        - Listings
+      security:
+        - basicAuth: []
+      description:
+        Get all dog listings matching the author ID
+      requestHeader:
+        description: Username and Password
+        required: true
+      responses:
+        '200':
+          description: Successful retrieval of dog listings matching author ID
+          content:
+            application/json:
+              schema:
+                $ref: ./listing.json#/definitions/listing
+        '404':
+          description: Unsuccessful retrieval of dog listings matching author ID
+        '401':
+          description: Authentication information is missing or invalid
+          headers:
+            WWW_Authenticate:
+              schema:
+                type: string
+        '403':
+          description: User role does not have permission
   /listings/{id}:
     parameters:
       - in: path
@@ -101,8 +157,13 @@ paths:
     put:
       tags:
         - Listings
+      security:
+        - basicAuth: []
       description:
         Update dog listing specified by ID
+      requestHeader:
+        description: Username and Password
+        required: true
       requestBody:
         description: New information to update specified listing with.
         required: true
@@ -119,32 +180,39 @@ paths:
                 $ref: ./listing.json#/definitions/listingCreated
         '400':
           description: Failed validation and did not update listing 
+        '401':
+          description: Authentication information is missing or invalid
+          headers:
+            WWW_Authenticate:
+              schema:
+                type: string
+        '403':
+          description: User role does not have permission
     del:
       tags:
         - Listings
+      security:
+        - basicAuth: []
       description:
         Delete dog listing specified by ID
+      requestHeader:
+        description: Username and Password
+        required: true
       responses:
         '201':
           description: Successful deletion of specified dog listing
-        '400':
-          description: Failure to delete specified dog listing
+        '404':
+          description: Failure to find and delete specified dog listing
+        '401':
+          description: Authentication information is missing or invalid
+          headers:
+            WWW_Authenticate:
+              schema:
+                type: string
+        '403':
+          description: User role does not have permission
             
   /register:
-    get:
-      tags:
-        - Users
-      description:
-        Get list of all users
-      responses:
-        '200':
-          description: List of users
-          content:
-            application/json:
-              schema:
-                $ref: ./user.json#/definitions/user
-        '403':
-          description: user is not authorised to retrieve list of users
     post:
       tags:
         - Users
@@ -192,9 +260,57 @@ paths:
     post:
       tags:
         - Users
+      security:
+        - basicAuth: []
       description:
         authentication of a username and password using basic auth
       requestHeader:
         description: Username and Password
         required: true
+      responses:
+        '200':
+          description: The user was successfuly authenticated
+        '401':
+          description: Authentication information is missing or invalid
+          headers:
+            WWW_Authenticate:
+              schema:
+                type: string
+  
+  /images/{uuid}:
+    get:
+      tags:
+        - Images
+      description:
+        download specified image matching uuid parameter
+      responses:
+        '200':
+          description: Successful download of an image
+          content:
+            multipart/form-data:
+              type: object
+              properties:
+                path:
+                  type: integer
+        '404':
+          description: Failed to download specified image
+        '500':
+          description: Server error downloading image
+  /images:
+    post:
+      tags:
+        - Images
+      description:
+        upload specified image matching uuid parameter
+      responses:
+        '201':
+          description: Successful upload of an image
+          content:
+            multipart/form-data:
+              type: object
+              properties:
+                path:
+                  type: integer
+        '500':
+          description: Server error uploading image
 

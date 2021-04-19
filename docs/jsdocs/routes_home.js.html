@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: routes/home.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,42 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: routes/home.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** Express router providing home related routes
+ * @module routers/home
+ * @author Syam Marcus
+ * @see app/* for using route in koa app
+ */
 
+const Router = require('koa-router');
 
-    <h3> </h3>
+/** Define route handlers and set URI paths */
+const router = Router({ prefix: '/TCS' });
+router.get('/', defaultResponse);
 
+/**
+ * function to set response for the defaultResponse route handler
+ * @param {object} ctx - The Koa request/response context object
+ * @returns {object} A default JSON response message
+*/
+function defaultResponse(ctx) {
+  ctx.body = {
+    message: 'Default home page restult of get request',
+  };
+}
 
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = router;
+</code></pre>
+        </article>
+    </section>
 
 
 

@@ -1,7 +1,7 @@
 /** Express router providing home related routes
  * @module routers/home
  * @author Syam Marcus
- * @see index/* for using route in koa app
+ * @see app/* for using route in koa app
  */
 
 const Router = require('koa-router');
