@@ -75,7 +75,7 @@
       }
     },
     
-    "employeeCode": {
+    "userEmployeeCode": {
       "$id": "#employeeCode",
       "title": "Employee Code",
       "description": "Confirmation of a successful employee code search",

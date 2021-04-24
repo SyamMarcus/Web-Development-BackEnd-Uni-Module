@@ -18,6 +18,11 @@ exports.getAll = async function getAll(limit = 10, page = 10) {
   return data;
 };
 
+/**
+ * Pass SQL query to DB controller for getting specified listing by search, return the query result.
+ * @param {number} id the search query to find listings
+ * @returns {object} paginated listings matching search query
+ */
 exports.getBySearch = async function getBySearch(q, limit = 10, page = 10) {
   const offset = (page - 1) * limit;
   const query = 'SELECT * FROM listings WHERE `title` LIKE ? LIMIT ?,?;';

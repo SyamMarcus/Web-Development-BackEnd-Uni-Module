@@ -59,13 +59,13 @@ async function createUser(ctx) {
 */
 async function login(ctx) {
   const {
-    ID, username, role, email, avatarURL,
+    ID, username, firstName, lastName, dateRegistered, role, email, avatarURL,
   } = ctx.state.user;
   const links = {
     self: `${ctx.protocol}://${ctx.host}${prefix}/${ID}`,
   };
   ctx.body = {
-    ID, username, role, email, avatarURL, links,
+    ID, username, firstName, lastName, dateRegistered, role, email, avatarURL, links,
   };
   ctx.status = 200;
 }

@@ -40,10 +40,10 @@
       "additionalProperties": false
     },
 
-    "listingCreated": {
-      "$id": "#listingCreated",
-      "title": "Listing Created",
-      "description": "Confirmation of a successful listing update/creation",
+    "listingChanged": {
+      "$id": "#listingChanged",
+      "title": "Listing Changed",
+      "description": "Confirmation of a successful listing update/creation/deletion",
       "type": "object",
       "properties": {
         "ID": {
@@ -51,7 +51,11 @@
           "type": "integer"
         },
         "updated": {
-          "description": "Boolean indicator of success",
+          "description": "Boolean indicator of successful update",
+          "type": "boolean"
+        },
+        "deleted": {
+          "description": "Boolean indicator of deletion",
           "type": "boolean"
         },
         "link": {
