@@ -17,10 +17,10 @@ describe('Register a new user', () => {
 });
 
 describe('Check employee code exists through a search query', () => {
-  it('The "123" employee code should be found with a query value of 1', async () => {
+  it('The "EMP-6523985" employee code should be found with a query value of 1', async () => {
     const res = await request(app.callback())
-      .get('/TCS/register/search?code=123');
-    expect(res.body).toHaveProperty(["EXISTS(SELECT * from codes WHERE EmployeeCode='123')"], 1);
+      .get('/TCS/register/search?code=EMP-6523985');
+    expect(res.body).toHaveProperty(["EXISTS(SELECT * from codes WHERE EmployeeCode='EMP-6523985')"], 1);
   });
 });
 
@@ -49,7 +49,7 @@ describe('PASS logging in a user', () => {
   it('should receive a status code of 200 with login', async () => {
     const res = await request(app.callback())
       .post('/TCS/register/login')
-      .auth('user', 'user');
+      .auth('MrStandard', 'qwerty123');
     expect(res.statusCode).toEqual(200);
   });
 });
